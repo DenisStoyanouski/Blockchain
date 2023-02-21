@@ -16,7 +16,7 @@ public class Blockchain {
         }
     }
 
-    private boolean isValid() {
+    public boolean isValid() {
         for (int i = 1; i < blockList.size(); i++) {
             if (blockList.get(i).getHashOfPreviousBlock().equals(blockList.get(i - 1).getHashCode())) {
                 continue;

@@ -7,5 +7,7 @@ public class Main {
             blockchain.addBlock();
         }
         blockchain.printBlocks();
+
+        System.out.println("Blockchain is valid: " + blockchain.isValid());
     }
 }
