@@ -11,7 +11,8 @@ public class Blockchain {
             Block block = new Block(1, "0");
             blockList.add(block);
         } else {
-            Block block = new Block(blockList.size(), blockList.get(blockList.size() - 1).getHashCode());
+            Block block = new Block(blockList.size() + 1, blockList.get(blockList.size() - 1).getHashCode());
+            blockList.add(block);
         }
     }
 
@@ -27,7 +28,7 @@ public class Blockchain {
     }
 
     public void printBlocks(){
-        blockList.forEach(x -> System.out.println(x.toString() + "\n\n"));
+        blockList.forEach(x -> System.out.println(x.toString()));
     }
 
 
