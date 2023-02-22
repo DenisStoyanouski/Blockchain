@@ -1,5 +1,6 @@
 package blockchain;
 
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Date;
 import java.util.concurrent.ThreadLocalRandom;
@@ -8,17 +9,17 @@ import java.util.regex.Pattern;
 
 public class Block {
 
-    private int id;
+    final private int id;
 
     private long magicNumber;
 
-    private String hashOfPreviousBlock;
+    final private String hashOfPreviousBlock;
 
     private String hashCode;
 
-    private Pattern pattern;
+    final private Pattern pattern;
 
-    private long timeStamp;
+    final private long timeStamp;
 
     public Block(int id, String hashOfPreviousBlock, int numberOfZero) {
         this.id = id;
@@ -34,7 +35,7 @@ public class Block {
         Matcher matcher;
         do {
             magicNumber = getMagicNumber();
-            allFields = String.valueOf(id) + hashOfPreviousBlock + timeStamp + magicNumber;
+            allFields = id + hashOfPreviousBlock + timeStamp + magicNumber;
             hashCode = applySha256(allFields);
             matcher = pattern.matcher(hashCode);
         } while (!matcher.matches());
@@ -52,7 +53,7 @@ public class Block {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             /* Applies sha256 to our input */
-            byte[] hash = digest.digest(input.getBytes("UTF-8"));
+            byte[] hash = digest.digest(input.getBytes(StandardCharsets.UTF_8));
             StringBuilder hexString = new StringBuilder();
             for (byte elem: hash) {
                 String hex = Integer.toHexString(0xff & elem);
