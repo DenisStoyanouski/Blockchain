@@ -31,6 +31,14 @@ public class Blockchain {
         return true;
     }
 
+    public int getLastId() {
+        return blockList.size() + 1;
+    }
+
+    public String getLastHashCode() {
+        return blockList.size() == 0 ? "0" : blockList.get(blockList.size() - 1).getHashCode();
+    }
+
     public void printBlocks(){
         blockList.forEach(x -> System.out.println(x.toString()));
     }
