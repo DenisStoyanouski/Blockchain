@@ -6,29 +6,22 @@ import java.util.List;
 public class Blockchain {
     private final List<Block> blockList = new ArrayList<>();
 
-    private int numberOfZero;
-
-    public void addNumberOfZero(int numberOfZero) {
-        this.numberOfZero = numberOfZero;
-    }
-
-    public void addBlock() {
-        if (blockList.isEmpty()) {
-            Block block = new Block(1, "0", numberOfZero);
-            blockList.add(block);
-        } else {
-            Block block = new Block(blockList.size() + 1, blockList.get(blockList.size() - 1).getHashCode(), numberOfZero);
+    public void addBlock(Block block) {
+        if (isValid(block)) {
             blockList.add(block);
         }
     }
 
-    public boolean isValid() {
-        for (int i = 1; i < blockList.size(); i++) {
-            if (!blockList.get(i).getHashOfPreviousBlock().equals(blockList.get(i - 1).getHashCode())) {
-                return false;
-            }
-        }
-        return true;
+    private boolean isValid(Block block) {
+        return block.getHashOfPreviousBlock().equals(getLastHashCode());
+    }
+
+    private Block getLastBlock () {
+        return blockList.get(blockList.size() - 1);
+    }
+
+    public void printLastBlock() {
+        System.out.println(getLastBlock().toString());
     }
 
     public int getLastId() {
@@ -36,7 +29,7 @@ public class Blockchain {
     }
 
     public String getLastHashCode() {
-        return blockList.size() == 0 ? "0" : blockList.get(blockList.size() - 1).getHashCode();
+        return blockList.size() == 0 ? "0" : getLastBlock().getHashCode();
     }
 
     public void printBlocks(){

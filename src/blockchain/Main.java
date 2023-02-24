@@ -2,27 +2,32 @@ package blockchain;
 
 import java.util.Scanner;
 
+
 public class Main {
     public static void main(String[] args) {
         Blockchain blockchain = new Blockchain();
-        while (true) {
-            System.out.print("Enter how many zeros the hash must start with: ");
-            try {
-                blockchain.addNumberOfZero(Integer.parseInt(getInput()));
-                break;
-            } catch (NumberFormatException e) {
-                System.out.println("I need number!!! Try again");
+        int numberOfZeroes = 1;
+
+        for(int i = 1; i <= 10; i++) {
+            Miner miner = new Miner(blockchain, numberOfZeroes, i);
+            blockchain.addBlock(miner.getBlock());
+            blockchain.printLastBlock();
+            if (miner.getMiningTime() < 1) {
+                numberOfZeroes++;
+                System.out.printf("N was increased to %d\n", numberOfZeroes);
+            } else if (miner.getMiningTime() > 1) {
+                numberOfZeroes--;
+                System.out.printf("N was decreased to %d\n", numberOfZeroes);
+
             }
+
         }
-        System.out.println();
-        for(int i = 0; i < 5; i++) {
-            blockchain.addBlock();
-        }
-        blockchain.printBlocks();
     }
 
+/*
     private static String getInput() {
         return new Scanner(System.in).nextLine();
     }
+*/
 
 }

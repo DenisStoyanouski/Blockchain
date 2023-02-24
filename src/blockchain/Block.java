@@ -13,24 +13,30 @@ public class Block {
 
     private long magicNumber;
 
+    private final int minerNumber;
+
     final private String hashOfPreviousBlock;
 
     private String hashCode;
 
-    final private Pattern pattern;
+    final private int numberOfZero;
 
     final private long timeStamp;
 
-    public Block(int id, String hashOfPreviousBlock, int numberOfZero) {
+    private long timeStampFinish;
+
+    public Block(int id, String hashOfPreviousBlock, int numberOfZero, int minerNumber) {
         this.id = id;
         this.hashOfPreviousBlock = hashOfPreviousBlock;
         this.timeStamp = new Date().getTime();
-        this.pattern = Pattern.compile("0{%d}.*".formatted(numberOfZero));
+        this.numberOfZero = numberOfZero;
+        this.minerNumber = minerNumber;
         setHashCode();
 
     }
 
     private void setHashCode() {
+        Pattern pattern = Pattern.compile(String.format("0{%d}.*", numberOfZero));
         String allFields;
         Matcher matcher;
         do {
@@ -39,6 +45,7 @@ public class Block {
             hashCode = applySha256(allFields);
             matcher = pattern.matcher(hashCode);
         } while (!matcher.matches());
+        timeStampFinish = new Date().getTime();
     }
 
     public String getHashCode() {
@@ -71,13 +78,14 @@ public class Block {
     public String toString() {
         return String.format(
                 "Block:\n" +
+                "Created by miner # %d\n" +
                 "Id: %d\n" +
                 "Timestamp: %d\n" +
                 "Magic number: %d\n" +
                 "Hash of the previous block:\n%s\n" +
                 "Hash of the block:\n%s\n" +
                 "Block was generating for %d seconds\n",
-                id,timeStamp, magicNumber, hashOfPreviousBlock, hashCode, (new Date().getTime() - timeStamp) / 1000);
+                minerNumber, id ,timeStamp, magicNumber, hashOfPreviousBlock, hashCode, ( timeStampFinish - timeStamp) / 1000);
     }
 
     private long getMagicNumber() {
