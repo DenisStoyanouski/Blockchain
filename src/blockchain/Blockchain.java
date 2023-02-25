@@ -4,12 +4,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Blockchain {
-    private final List<Block> blockList = new ArrayList<>();
+    private List<Block> blockList = new ArrayList<>();
+    private List<String> zeroesStory = new ArrayList<>();
 
-    public void addBlock(Block block) {
+    private int numberOfZeroes;
+
+    private int numberOfChains;
+
+    public Blockchain(int numberOfChains, int numberOfZeroes) {
+        this.numberOfChains = numberOfChains;
+        this.numberOfZeroes = numberOfZeroes;
+    }
+
+    public synchronized boolean addBlock(Block block) {
         if (isValid(block)) {
             blockList.add(block);
+            if (block.getTimeOfCreating() < 1) {
+                numberOfZeroes++;
+                zeroesStory.add(String.format("N was increased to %d\n\n", numberOfZeroes));
+            } else if (block.getTimeOfCreating() > 1) {
+                numberOfZeroes--;
+                zeroesStory.add(String.format("N was decreased to %d\n\n", numberOfZeroes));
+            } else {
+                zeroesStory.add("N stays the same\n\n");
+            }
+            return true;
         }
+        return false;
     }
 
     private boolean isValid(Block block) {
@@ -21,7 +42,7 @@ public class Blockchain {
     }
 
     public void printLastBlock() {
-        System.out.println(getLastBlock().toString());
+        System.out.print(getLastBlock().toString());
     }
 
     public int getLastId() {
@@ -32,8 +53,18 @@ public class Blockchain {
         return blockList.size() == 0 ? "0" : getLastBlock().getHashCode();
     }
 
-    public void printBlocks(){
-        blockList.forEach(x -> System.out.println(x.toString()));
+    public void printBlocks(int numberOfChains){
+        for(int i = 0; i < numberOfChains; i++) {
+            System.out.print(blockList.get(i).toString() + zeroesStory.get(i));
+        }
+    }
+
+    public int getBlockchainSize() {
+        return blockList.size();
+    }
+
+    public int getNumberOfZeroes() {
+        return numberOfZeroes;
     }
 
 

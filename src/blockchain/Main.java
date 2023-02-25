@@ -1,27 +1,24 @@
 package blockchain;
 
-import java.util.Scanner;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class Main {
     public static void main(String[] args) {
-        Blockchain blockchain = new Blockchain();
-        int numberOfZeroes = 1;
-
-        for(int i = 1; i <= 10; i++) {
-            Miner miner = new Miner(blockchain, numberOfZeroes, i);
-            blockchain.addBlock(miner.getBlock());
-            blockchain.printLastBlock();
-            if (miner.getMiningTime() < 1) {
-                numberOfZeroes++;
-                System.out.printf("N was increased to %d\n", numberOfZeroes);
-            } else if (miner.getMiningTime() > 1) {
-                numberOfZeroes--;
-                System.out.printf("N was decreased to %d\n", numberOfZeroes);
-
-            }
-
+        int numberOfChains = 5;
+        Blockchain blockchain = new Blockchain(numberOfChains, 0);
+        ExecutorService executor = Executors.newFixedThreadPool(10);
+        while (blockchain.getBlockchainSize() < 5) {
+            executor.submit(() -> {
+                Miner miner = new Miner(blockchain, blockchain.getNumberOfZeroes(), String.valueOf(Thread.currentThread().getId()));
+                Block block = miner.getBlock();
+                blockchain.addBlock(block);
+            });
         }
+        executor.shutdownNow();
+        blockchain.printBlocks(numberOfChains);
     }
 
 /*
