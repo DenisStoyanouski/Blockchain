@@ -10,7 +10,7 @@ public class Main {
         int numberOfChains = 5;
         Blockchain blockchain = new Blockchain(numberOfChains, 0);
         ExecutorService executor = Executors.newFixedThreadPool(10);
-        while (blockchain.getBlockchainSize() < 5) {
+        while (blockchain.getBlockchainSize() < numberOfChains) {
             executor.submit(() -> {
                 Miner miner = new Miner(blockchain, blockchain.getNumberOfZeroes(), String.valueOf(Thread.currentThread().getId()));
                 Block block = miner.getBlock();
@@ -20,11 +20,4 @@ public class Main {
         executor.shutdownNow();
         blockchain.printBlocks(numberOfChains);
     }
-
-/*
-    private static String getInput() {
-        return new Scanner(System.in).nextLine();
-    }
-*/
-
 }
