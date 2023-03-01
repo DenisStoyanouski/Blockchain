@@ -2,17 +2,15 @@ package blockchain;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Blockchain {
     private final List<Block> blockList = new ArrayList<>();
     private final List<String> zeroesStory = new ArrayList<>();
-
     final private List<String> messages = new ArrayList<>();
 
     private int numberOfZeroes;
 
-    private final int numberOfChains;
+    private int numberOfChains;
 
     public Blockchain(int numberOfChains, int numberOfZeroes) {
         this.numberOfChains = numberOfChains;
@@ -66,6 +64,10 @@ public class Blockchain {
 
     public int getNumberOfZeroes() {
         return numberOfZeroes;
+    }
+
+    public synchronized void setMessage(String message) {
+        messages.add(message);
     }
 
 
