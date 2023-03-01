@@ -15,6 +15,7 @@ public class Main {
                 Miner miner = new Miner(blockchain, blockchain.getNumberOfZeroes(), String.valueOf(Thread.currentThread().getId()));
                 Block block = miner.getBlock();
                 blockchain.addBlock(block);
+                blockchain.setMessage("Hello");
             });
         }
         executor.shutdownNow();

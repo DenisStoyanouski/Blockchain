@@ -28,12 +28,13 @@ public class Block {
 
     private String blockData;
 
-    public Block(int id, String hashOfPreviousBlock, int numberOfZero, String minerNumber) {
+    public Block(int id, String hashOfPreviousBlock, int numberOfZero, String minerNumber, String blockData) {
         this.id = id;
         this.hashOfPreviousBlock = hashOfPreviousBlock;
         this.timeStamp = new Date().getTime();
         this.numberOfZero = numberOfZero;
         this.minerNumber = minerNumber;
+        this.blockData = blockData;
         setHashCode();
 
     }
@@ -47,7 +48,7 @@ public class Block {
         Matcher matcher;
         do {
             magicNumber = getMagicNumber();
-            allFields = id + hashOfPreviousBlock + timeStamp + magicNumber;
+            allFields = id + hashOfPreviousBlock + timeStamp + blockData + magicNumber;
             hashCode = applySha256(allFields);
             matcher = pattern.matcher(hashCode);
         } while (!matcher.matches());

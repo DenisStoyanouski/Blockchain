@@ -6,7 +6,7 @@ import java.util.List;
 public class Blockchain {
     private final List<Block> blockList = new ArrayList<>();
     private final List<String> zeroesStory = new ArrayList<>();
-    final private List<String> messages = new ArrayList<>();
+    volatile private List<String> messages = new ArrayList<>();
 
     private int numberOfZeroes;
 
@@ -19,8 +19,6 @@ public class Blockchain {
 
     public synchronized boolean addBlock(Block block) {
         if (isValid(block)) {
-            block.setBlockData(messages);
-            messages.clear();
             blockList.add(block);
             if (block.getTimeOfCreating() < 1) {
                 numberOfZeroes++;
@@ -68,6 +66,13 @@ public class Blockchain {
 
     public synchronized void setMessage(String message) {
         messages.add(message);
+    }
+
+    public synchronized String getMessages() {
+        String all = messages.size() != 0 ? String.join("\n", messages) : "no messages";
+        messages.clear();
+        return all;
+
     }
 
 

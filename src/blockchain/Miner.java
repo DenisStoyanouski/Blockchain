@@ -23,7 +23,7 @@ public class Miner {
     }
 
     private void mineBlock() {
-        block = new Block(getBlockId(), getLastHashCode(), numberOfZeros, numberOfMiner);
+        block = new Block(getBlockId(), getLastHashCode(), numberOfZeros, numberOfMiner, blockchain.getMessages() );
     }
 
     public Block getBlock() {
