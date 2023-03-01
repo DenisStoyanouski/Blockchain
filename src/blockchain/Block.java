@@ -3,6 +3,7 @@ package blockchain;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,6 +25,8 @@ public class Block {
     final private long timeStamp;
 
     private long timeOfCreating;
+
+    private String blockData;
 
     public Block(int id, String hashOfPreviousBlock, int numberOfZero, String minerNumber) {
         this.id = id;
@@ -49,6 +52,10 @@ public class Block {
             matcher = pattern.matcher(hashCode);
         } while (!matcher.matches());
         timeOfCreating = (new Date().getTime() - timeStamp) / 1000;
+    }
+
+    public void setBlockData(List<String> messages) {
+        blockData = String.join("\n", messages);
     }
 
     public String getHashCode() {
@@ -87,8 +94,9 @@ public class Block {
                 "Magic number: %d\n" +
                 "Hash of the previous block:\n%s\n" +
                 "Hash of the block:\n%s\n" +
+                "Block data: \n%s\n" +
                 "Block was generating for %d seconds\n",
-                minerNumber, id ,timeStamp, magicNumber, hashOfPreviousBlock, hashCode, getTimeOfCreating());
+                minerNumber, id ,timeStamp, magicNumber, hashOfPreviousBlock, hashCode, blockData, getTimeOfCreating());
     }
 
     private long getMagicNumber() {
