@@ -38,7 +38,7 @@ public class Blockchain {
         return block.getHashOfPreviousBlock().equals(getLastHashCode());
     }
 
-    private Block getLastBlock () {
+    private Block getLastBlock() {
         return blockList.get(blockList.size() - 1);
     }
 
@@ -50,8 +50,8 @@ public class Blockchain {
         return blockList.size() == 0 ? "0" : getLastBlock().getHashCode();
     }
 
-    public void printBlocks(int numberOfChains){
-        for(int i = 0; i < numberOfChains; i++) {
+    public void printBlocks(int numberOfChains) {
+        for (int i = 0; i < numberOfChains; i++) {
             System.out.print(blockList.get(i).toString() + zeroesStory.get(i));
         }
     }
@@ -72,9 +72,5 @@ public class Blockchain {
         String all = messages.size() != 0 ? String.join("\n", messages) : "no messages";
         messages.clear();
         return all;
-
     }
-
-
-
 }

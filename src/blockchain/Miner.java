@@ -5,16 +5,15 @@ public class Miner {
     volatile private Blockchain blockchain;
     private Block block;
     String numberOfMiner;
-
     int numberOfZeros;
 
-    Miner (Blockchain blockchain, int numberOfZeros, String numberOfMiner) {
+    Miner(Blockchain blockchain, int numberOfZeros, String numberOfMiner) {
         this.blockchain = blockchain;
         this.numberOfZeros = numberOfZeros;
         this.numberOfMiner = numberOfMiner;
     }
 
-    private int getBlockId () {
+    private int getBlockId() {
         return blockchain.getLastId();
     }
 
@@ -23,7 +22,7 @@ public class Miner {
     }
 
     private void mineBlock() {
-        block = new Block(getBlockId(), getLastHashCode(), numberOfZeros, numberOfMiner, blockchain.getMessages() );
+        block = new Block(getBlockId(), getLastHashCode(), numberOfZeros, numberOfMiner, blockchain.getMessages());
     }
 
     public Block getBlock() {

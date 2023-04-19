@@ -9,23 +9,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Block {
-
     final private int id;
-
     private long magicNumber;
-
     private final String minerNumber;
-
     final private String hashOfPreviousBlock;
-
     private String hashCode;
-
     final private int numberOfZero;
-
     final private long timeStamp;
-
     private long timeOfCreating;
-
     private String blockData;
 
     public Block(int id, String hashOfPreviousBlock, int numberOfZero, String minerNumber, String blockData) {
@@ -38,6 +29,7 @@ public class Block {
         setHashCode();
 
     }
+
     public long getTimeOfCreating() {
         return timeOfCreating;
     }
@@ -67,20 +59,19 @@ public class Block {
         return hashOfPreviousBlock;
     }
 
-    private static String applySha256(String input){
+    private static String applySha256(String input) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             /* Applies sha256 to our input */
             byte[] hash = digest.digest(input.getBytes(StandardCharsets.UTF_8));
             StringBuilder hexString = new StringBuilder();
-            for (byte elem: hash) {
+            for (byte elem : hash) {
                 String hex = Integer.toHexString(0xff & elem);
-                if(hex.length() == 1) hexString.append('0');
+                if (hex.length() == 1) hexString.append('0');
                 hexString.append(hex);
             }
             return hexString.toString();
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -89,20 +80,18 @@ public class Block {
     public String toString() {
         return String.format(
                 "Block:\n" +
-                "Created by miner # %s\n" +
-                "Id: %d\n" +
-                "Timestamp: %d\n" +
-                "Magic number: %d\n" +
-                "Hash of the previous block:\n%s\n" +
-                "Hash of the block:\n%s\n" +
-                "Block data: \n%s\n" +
-                "Block was generating for %d seconds\n",
-                minerNumber, id ,timeStamp, magicNumber, hashOfPreviousBlock, hashCode, blockData, getTimeOfCreating());
+                        "Created by miner # %s\n" +
+                        "Id: %d\n" +
+                        "Timestamp: %d\n" +
+                        "Magic number: %d\n" +
+                        "Hash of the previous block:\n%s\n" +
+                        "Hash of the block:\n%s\n" +
+                        "Block data: \n%s\n" +
+                        "Block was generating for %d seconds\n",
+                minerNumber, id, timeStamp, magicNumber, hashOfPreviousBlock, hashCode, blockData, getTimeOfCreating());
     }
 
     private long getMagicNumber() {
         return ThreadLocalRandom.current().nextLong(Long.MAX_VALUE);
     }
-
-
 }
